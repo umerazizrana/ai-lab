@@ -1,18 +1,29 @@
-"""First MLflow experiment: Iris classification with RandomForest."""
+"""Iris classification training — DVC + MLflow tracked pipeline stage."""
 
+import json
+from pathlib import Path
+
+import joblib
 import mlflow
 import mlflow.sklearn
 import pandas as pd
-from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score
+from sklearn.model_selection import train_test_split
 
-# --- MLflow tracking server ---
+# --- MLflow ---
 mlflow.set_tracking_uri("http://localhost:5000")
 mlflow.set_experiment("iris-classification")
 
+# --- Paths ---
+DATA_PATH = Path("data/raw/iris.csv")
+MODEL_PATH = Path("models/iris-rf.pkl")
+METRICS_PATH = Path("metrics.json")
+
+MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
+
 # --- Load data (DVC-tracked) ---
-df = pd.read_csv("data/raw/iris.csv")
+df = pd.read_csv(DATA_PATH)
 X = df.drop(columns=["target"])
 y = df["target"]
 
@@ -43,13 +54,17 @@ with mlflow.start_run(run_name="rf-baseline") as run:
     mlflow.log_metrics(metrics)
 
     mlflow.sklearn.log_model(
-	sk_model=model,
+        sk_model=model,
         name="model",
         registered_model_name="iris-random-forest",
         skops_trusted_types=["sklearn.tree._tree.Tree"],
     )
 
+    joblib.dump(model, MODEL_PATH)
+    METRICS_PATH.write_text(json.dumps(metrics, indent=2))
+
     print(f"Run ID:   {run.info.run_id}")
     print(f"Accuracy: {metrics['accuracy']:.4f}")
     print(f"F1 macro: {metrics['f1_macro']:.4f}")
-
+    print(f"Model saved to:   {MODEL_PATH}")
+    print(f"Metrics saved to: {METRICS_PATH}")
