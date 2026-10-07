@@ -1,0 +1,22 @@
+schema: '2.0'
+stages:
+  train:
+    cmd: python pipelines/training/train_iris.py
+    deps:
+    - path: data/raw/iris.csv
+      hash: md5
+      md5: 4d301abed5efe50eccda350cde38e0eb
+      size: 2777
+    - path: pipelines/training/train_iris.py
+      hash: md5
+      md5: b6a4ff694a22c46dcbe38eafd830d4a6
+      size: 1882
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: 57163e8e65ecf6e5c9446aa408098040
+      size: 70
+    - path: models/iris-rf.pkl
+      hash: md5
+      md5: 6a9981c6e7a16210145865e81fb7f9aa
+      size: 150129

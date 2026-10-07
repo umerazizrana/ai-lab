@@ -1,0 +1,11 @@
+stages:
+  train:
+    cmd: python pipelines/training/train_iris.py
+    deps:
+      - data/raw/iris.csv
+      - pipelines/training/train_iris.py
+    outs:
+      - models/iris-rf.pkl
+    metrics:
+      - metrics.json:
+          cache: false
