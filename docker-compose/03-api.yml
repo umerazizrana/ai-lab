@@ -1,0 +1,25 @@
+services:
+
+  iris-api:
+    build:
+      context: ../apps/iris-api
+      dockerfile: Dockerfile
+    container_name: ai-iris-api
+
+    environment:
+      MLFLOW_TRACKING_URI: http://ai-mlflow:5000
+      MODEL_URI: models:/iris-random-forest/latest
+
+    ports:
+      - "8000:8000"
+
+    networks:
+      - ai-lab
+
+    restart: unless-stopped
+
+
+networks:
+
+  ai-lab:
+    external: true
