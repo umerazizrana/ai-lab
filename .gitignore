@@ -19,11 +19,26 @@ env/
 # Jupyter
 .ipynb_checkpoints/
 
-# Data
+# Data — ignore contents but keep .dvc pointers and inner .gitignore
 data/raw/*
+!data/raw/.gitignore
+!data/raw/*.dvc
 data/processed/*
+!data/processed/.gitignore
+!data/processed/*.dvc
 data/embeddings/*
+!data/embeddings/.gitignore
+!data/embeddings/*.dvc
+
+# Models
 models/*
+!models/.gitignore
+!models/*.dvc
+
+# DVC local cache / local remote
+.dvc/cache/
+.dvc/tmp/
+dvc-storage/
 
 # ML artifacts
 mlruns/
