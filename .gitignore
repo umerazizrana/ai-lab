@@ -1,0 +1,48 @@
+# Environment / secrets
+.env
+.env.*
+docker-compose/.env
+docker-compose/.env.*
+*.key
+*.pem
+*.crt
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data
+data/raw/*
+data/processed/*
+data/embeddings/*
+models/*
+
+# ML artifacts
+mlruns/
+mlartifacts/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+
+# IDE
+.vscode/
+.idea/
